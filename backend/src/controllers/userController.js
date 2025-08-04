@@ -34,3 +34,23 @@ res.send({
     "user": user
 })
  }
+
+ export async function logout(req,res){
+    res.clearCookie("token").send("logged out successfully")
+ }
+
+ export async function update(req,res){
+    const {email,password,...person}= req.body
+
+    const user=await Users.findOne({email})
+    const updatedUser=await Users.findByIdAndUpdate(user._id,{
+    
+       ...person
+    },{
+        new:true
+    })
+    res.send({
+        "message":"updated",
+        "user":updatedUser
+    })
+ }
