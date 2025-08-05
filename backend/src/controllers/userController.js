@@ -40,17 +40,18 @@ res.send({
  }
 
  export async function update(req,res){
-    const {email,password,...person}= req.body
+ 
 
-    const user=await Users.findOne({email})
-    const updatedUser=await Users.findByIdAndUpdate(user._id,{
-    
-       ...person
-    },{
-        new:true
-    })
+   const {user,...person }= req.body
+   let userr= await Users.findByIdAndUpdate({
+      _id:user._id
+
+   },
+person,{returnDocument:"after" } 
+)
+ 
     res.send({
         "message":"updated",
-        "user":updatedUser
+        "user":userr
     })
  }
