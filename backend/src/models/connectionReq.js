@@ -22,6 +22,7 @@ required:true
     timestamps:true
  })
 
+ reqSchema.index({fromUserId:1, toUserId:2})
 
  reqSchema.pre("save", function (next){
     let connectReq= this;
