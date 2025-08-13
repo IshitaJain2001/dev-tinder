@@ -3,6 +3,6 @@ import connectionReq from "../controllers/reqController.js"
 import { authenticate } from "../middlewares/autheticateUser.js"
 
  const reqRouter= express()
- reqRouter.post("/connectionreq",authenticate, connectionReq)
+ reqRouter.post("/send/:status/:toUserId",authenticate, connectionReq)
 
  export default reqRouter
