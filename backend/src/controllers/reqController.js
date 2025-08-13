@@ -47,3 +47,42 @@ if(!toUser) {
    res.send(error.message) 
   }
   }
+
+
+  export async function reviewReq(req,res){
+    const {status, requestId}= req.params
+    const user= req.body.user
+    try {
+      const allowedStatus= ["accepted", "rejected"]
+      if(!allowedStatus.includes(status)){
+        return res.json({
+          "message":"status type not allowed"
+        })
+      }
+  
+      const request=await ConnectionModel.findOne({
+        _id:requestId,
+        toUserId:user._id,
+        status:"interested"
+      })
+  
+      if(!request){
+        return res.json({
+          "message":"invalid request"
+        })
+      }
+
+      request.status= status
+
+    const data=   await request.save()
+
+res.json({
+  "status": "connection req"+status,
+  "data": data
+})
+  } catch (error) {
+      res.json({
+        "error": `${error.message}`
+      })
+    }
+  }
