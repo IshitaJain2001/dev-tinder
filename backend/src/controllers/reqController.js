@@ -1,4 +1,5 @@
 import ConnectionModel from "../models/connectionReq.js"
+import { Users } from "../models/userModel.js"
 
   export default async function connectionReq(req,res){
     const {user}= req.body
@@ -12,6 +13,9 @@ return res.json({
 })
 }
 
+const toUser=await Users.findById(toUserId)
+if(!toUser) {
+  return res.json({"message":"no such user exists"})}
   const isAlreadySent=   await ConnectionModel.findOne({
     $or:[
       {fromUserId, toUserId},
@@ -19,6 +23,12 @@ return res.json({
     ]
   })
   console.log(isAlreadySent);
+
+  if(isAlreadySent){
+    return res.json({
+      "message":"invalid connection req"
+    })
+  }
  
   try {
     

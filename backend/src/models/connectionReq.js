@@ -22,5 +22,13 @@ required:true
     timestamps:true
  })
 
+
+ reqSchema.pre("save", function (next){
+    let connectReq= this;
+    if(connectReq.fromUserId.equals(connectReq.toUserId)){
+        throw new Error("sending req to yourself isnot allowed")
+    }
+    next()
+ })
 const ConnectionModel= new model("Requests",reqSchema)
 export default ConnectionModel
